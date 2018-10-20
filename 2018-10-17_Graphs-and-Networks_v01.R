@@ -1,19 +1,22 @@
-# FND-MAT-Graphs_and_networks.R
+# 2018-10-20_Graphs_and_networks.R
 #
 # Purpose:  R code accompanying the FND-MAT-Graphs_and_networks short report assignment (Option B - Centrality)
 #
 # Version:  2.0
 #
 # Date:     2017  10  20
-# Author:   Boris Steipe (boris.steipe@utoronto.ca)
+# Author:   Gabriela Morgenshtern (g.morgenshtern@mail.utoronto.ca)
 #
 # Versions:
-#           2.0   Second final (functional) version. Including testing comments
-#           1.0    First final version for learning units.
-#           0.1    First code copied from 2016 material.
+#           2.1   Final (functional) version. Ready for presenting as deliverable
+#           2.0   Second draft (functional) version. Including testing comments
+#           1.0    First draft version, mostly notes from learning unit
 
 
-### Installing script requirements
+##################################################################
+###### Installing script requirements ############################
+##################################################################
+
 if (! require(igraph, quietly=TRUE)) {
   install.packages("igraph")
   library(igraph)
@@ -24,48 +27,37 @@ if (!require(RColorBrewer, quietly=TRUE)) {
   library(RColorBrewer)
 }
 
-### Setting variables
-sccdata <- scCCnet
+##################################################################
+###### B.1 Informative overview plot ############################
+##################################################################
 
-# Steps #
-## Informative overview plot setup:
 # 1) get list of genes:
-allGenes <- unique(c(sccdata$protein1, sccdata$protein2))
+allGenes <- unique(c(scCCnet$protein1, scCCnet$protein2))
 
-# 2) create adjacency matrix:  1 if tuple of prot1/prot2 exists in sccdata, 0 otw
+# 2) create adjacency matrix:  1 if tuple of prot1/prot2 exists in scCCnet, 0 otw
 # Empty adjacency matrix (AM)
 N <- length(allGenes)
 AM <- matrix(numeric(N * N), ncol = N)
 rownames(AM) <- allGenes
 colnames(AM) <- allGenes
 
-# Fill AM values based on existing rows in sccdata
-for (iRow in 1:(length(sccdata$protein1))) {
-  protein1 <- as.character(sccdata[iRow,]["protein1"])
-  protein2 <- as.character(sccdata[iRow,]["protein2"])
+# Fill AM values based on existing rows in scCCnet
+for (iRow in 1:(length(scCCnet$protein1))) {
+  protein1 <- as.character(scCCnet[iRow,]["protein1"])
+  protein2 <- as.character(scCCnet[iRow,]["protein2"])
   AM[protein1, protein2] <- 1
-
-  # TESTING ITERATIONS
-  # print(iRow)
-  # print(protein1)
-  # print(protein2)
-  # print(AM[protein1, protein2])
 }
 
 # 3) create plot of adjacency matrix: myG
 myG <- graph_from_adjacency_matrix(AM, mode = "undirected")
 
-# 4) calculate layout coordinates: OR myGxy <- layout_with_graphopt(myG)
+# 4) calculate layout coordinates:
 myGxy <- layout_with_fr(myG)
-# myGxy <- layout_with_graphopt(myG, niter = 40, charge = 0.0012, spring.length = 0, mass = 20)
-# myGxy <- layout_with_lgl(myG)
 
-## Betweeness centrality to scale and colour nodes:
-# 5) plot! using betweeness centrality as in class example:
+# 5) Plot the network; color and scale the nodes according to their centrality score:
 bC <- centr_betw(myG)
 nodeBetw <- bC$res
 nodeBetw <- round(log(nodeBetw + 1)) + 1
-
 
 oPar <- par(mar= rep(0,4)) # Turn margins off
 plot(myG,
@@ -81,10 +73,12 @@ plot(myG,
      label.dist = 1,
      label.degree = 0,
      edge.width = 0.5
-     )
+)
 par(oPar)
+
+# Create a legend and title
 title("Gene interaction network based on the scCCnet dataset", line = -2)
-# Create a legend
+
 Group <- gl(10, 1, 10, labels = c(seq_len(10)))
 legend("topright",bty = "n",
        legend=levels(Group),
@@ -96,6 +90,10 @@ legend("topright",bty = "n",
 diameter(myG)
 get_diameter(myG)
 lines(myGxy[get_diameter(myG),]*1.05, lwd=8, col="#ff63a788")
+
+##################################################################
+###### B.2: Betweeness centrality to scale and colour nodes ######
+##################################################################
 
 ## Analyzing graph
 # 6) order nodes according to their centrality score (code example needs playing with):
