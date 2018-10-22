@@ -61,7 +61,7 @@ nodeBetw <- round(log(nodeBetw + 1)) + 1
 
 oPar <- par(mar= rep(0,4)) # Turn margins off
 plot(myG,
-     layout = myGxy*1.05,
+     layout = myGxy*1.0,
      rescale = FALSE,
      xlim = c(min(myGxy[,1]) * 0.99, max(myGxy[,1]) * 1.01),
      ylim = c(min(myGxy[,2]) * 0.99, max(myGxy[,2]) * 1.01),
@@ -77,10 +77,10 @@ plot(myG,
 par(oPar)
 
 # Create a legend and title
-title("Gene interaction network based on the scCCnet dataset", line = -2)
+title("Gene interaction network based on the scCCnet dataset", line = -1)
 
 Group <- gl(10, 1, 10, labels = c(seq_len(10)))
-legend("topright",bty = "n",
+legend("bottomright",bty = "n",
        legend=levels(Group),
        fill=brewer.pal(max(nodeBetw), "RdYlGn"),
        border=NA,
@@ -89,7 +89,7 @@ legend("topright",bty = "n",
 # Shortest path and diameter information:
 diameter(myG)
 get_diameter(myG)
-lines(myGxy[get_diameter(myG),]*1.05, lwd=8, col="#ff63a788")
+lines(myGxy[get_diameter(myG),]*1.0, lwd=8, col="#ff63a788")
 
 ##################################################################
 ###### B.2: Betweeness centrality to scale and colour nodes ######
@@ -109,5 +109,3 @@ topCentrality10
 
 # Genes:          YLR330W YOR299W YLR084C YOR301W YJR072C YOR262W YLR243W YGR245C YLR074C YEL029C
 # Centralities:   11      11      10      10       9       9       9       8       8       7
-
-
