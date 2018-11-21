@@ -1,3 +1,17 @@
+# Mutation_Impact_Oral_Exam
+#
+# Purpose:  A Bioinformatics Course:
+#             R code accompanying the oral exam preparations for the Mutation Impact unit
+#
+# Version:  1.1
+#
+# Date:     2018  11 19  - 2018  11 21
+# Author:   Gabriela Morgenshtern (g.morgenshtern@mail.utoronto.ca)
+#
+# Versions:
+#           1.1    loop that keeps track of frequency of mutation types only
+#           1.0    loop that keeps track of the mutation locations
+
 # Testing for data availability and loading necessary packages:
 expect_true(file.exists("./data/ABC-INT-Mutation_impact.RData"))
 load(file = "./data/ABC-INT-Mutation_impact.RData")
@@ -105,36 +119,19 @@ KRAS_AA <- traFor(KRascodonsExp, GENETIC_CODE)
 OR1A1_AA <- traFor(OR1A1codonsExp, GENETIC_CODE)
 PTPN11_AA <- traFor(PTPN11codonsExp, GENETIC_CODE)
 
-# 3. GLOBAL variables to keep count of the observed mutations:
+# 3. GLOBAL counters of the observed mutations:
 #KRAS mutation counts:
-KRASSilent <- numeric(length(KRAS_AA))
-names(KRASSilent) <- KRAS_AA
 
-KRASMissense <- numeric(length(KRAS_AA))
-names(KRASMissense) <- KRAS_AA
-
-KRASNonsense <- numeric(length(KRAS_AA))
-names(KRASNonsense) <- KRAS_AA
+KRASmutations <- numeric(3)
+names(KRASmutations) <- c("silent", "missense", "nonsense")
 
 #OR1A1 mutation counts:
-OR1A1Silent <- numeric(length(OR1A1_AA))
-names(OR1A1Silent) <- OR1A1_AA
-
-OR1A1Missense <- numeric(length(OR1A1_AA))
-names(OR1A1Missense) <- OR1A1_AA
-
-OR1A1Nonsense <- numeric(length(OR1A1_AA))
-names(OR1A1Nonsense) <- OR1A1_AA
+OR1A1mutations <- numeric(3)
+names(OR1A1mutations) <- c("silent", "missense", "nonsense")
 
 #PTPN11 mutation counts:
-PTPN11Silent <- numeric(length(PTPN11_AA))
-names(PTPN11Silent) <- PTPN11_AA
-
-PTPN11Missense <- numeric(length(PTPN11_AA))
-names(PTPN11Missense) <- PTPN11_AA
-
-PTPN11Nonsense <- numeric(length(PTPN11_AA))
-names(PTPN11Nonsense) <- PTPN11_AA
+PTPN11mutations <- numeric(3)
+names(PTPN11mutations) <- c("silent", "missense", "nonsense")
 
 ######## Experimentation ########
 # 1. Create random point mutations N times:
@@ -175,43 +172,84 @@ for (i in 1:N) {
   # update mutation counters (repetitive conditionals kept for readers' clarity)
   # KRas
   if(mutTypeKRas == "non"){
-    KRASNonsense[imutKRas] <- KRASNonsense[imutKRas] + 1
+    KRASmutations[3] <- KRASmutations[3] + 1
   }
   else if(mutTypeKRas == "mis"){
-    KRASMissense[imutKRas] <- KRASMissense[imutKRas] + 1
+    KRASmutations[2] <- KRASmutations[2] + 1
   }
   else if(mutTypeKRas == "sil"){
-    KRASSilent[imutKRas] <- KRASSilent[imutKRas] + 1
+    KRASmutations[1] <- KRASmutations[1] + 1
   }
-  countMuts <- countMuts + 1
 
   # OR1A1
   if(mutTypeOR1A1 == "non"){
-    OR1A1Nonsense[imutOR1A1] <- OR1A1Nonsense[imutOR1A1] + 1
+    OR1A1mutations[3] <- OR1A1mutations[3] + 1
   }
   else if(mutTypeOR1A1 == "mis"){
-    OR1A1Missense[imutOR1A1] <- OR1A1Missense[imutOR1A1] + 1
+    OR1A1mutations[2] <- OR1A1mutations[2] + 1
   }
   else if(mutTypeOR1A1 == "sil"){
-    OR1A1Silent[imutOR1A1] <- OR1A1Silent[imutOR1A1] + 1
+    OR1A1mutations[1] <- OR1A1mutations[1] + 1
   }
 
   # PTPN11
   if(mutTypePTPN11 == "non"){
-    PTPN11Nonsense[imutPTPN11] <- PTPN11Nonsense[imutPTPN11] + 1
+    PTPN11mutations[3] <- PTPN11mutations[3] + 1
   }
   else if(mutTypePTPN11 == "mis"){
-    PTPN11Missense[imutPTPN11] <- PTPN11Missense[imutPTPN11] + 1
+    PTPN11mutations[2] <- PTPN11mutations[2] + 1
   }
   else if(mutTypePTPN11 == "sil"){
-    PTPN11Silent[imutPTPN11] <- PTPN11Silent[imutPTPN11] + 1
+    PTPN11mutations[1] <- PTPN11mutations[1] + 1
   }
+
+  # sanity check
+  countMuts <- countMuts + 1
 }
 
 
 ######## Analysis ########
 # Contrast that with the relative frequency of the mutations in each
 # category reported on the IntOGen Web page for each of the three genes.
+#KRas
+KRASSilentPerC <- KRASmutations[1]/N *100
+KRASMissensePerC <- KRASmutations[2]/N *100
+KRASNonsensePerC <- KRASmutations[3]/N *100
+
+#OR1A1
+OR1A1SilentPerC <- OR1A1mutations[1]/N *100
+OR1A1MissensePerC <- OR1A1mutations[2]/N *100
+OR1A1NonsensePerC <- OR1A1mutations[3]/N *100
+
+#PTPN11
+PTPN11SilentPerC <- PTPN11mutations[1]/N *100
+PTPN11MissensePerC <- PTPN11mutations[2]/N *100
+PTPN11NonsensePerC <- PTPN11mutations[3]/N *100
+
+# Print relative frequencies from stochastic simulation:
+cat("************ KRas ************\n")
+cat("KRas stochastic environment simulated:", KRASSilentPerC,
+"% silent mutations\n")
+cat("KRas stochastic environment simulated:", KRASMissensePerC,
+    "% missense mutations\n")
+cat("KRas stochastic environment simulated:", KRASNonsensePerC,
+    "% nonsense mutations\n")
+
+cat("************ OR1A1 ************\n")
+cat("OR1A1 stochastic environment simulated:", OR1A1SilentPerC,
+    "% silent mutations\n")
+cat("OR1A1 stochastic environment simulated:", OR1A1MissensePerC,
+    "% missense mutations\n")
+cat("OR1A1 stochastic environment simulated:", OR1A1NonsensePerC,
+    "% nonsense mutations\n")
+
+cat("************ PTPN11 ************\n")
+cat("PTPN11 stochastic environment simulated:", PTPN11SilentPerC,
+    "% silent mutations\n")
+cat("PTPN11 stochastic environment simulated:", PTPN11MissensePerC,
+    "% missense mutations\n")
+cat("PTPN11 stochastic environment simulated:", PTPN11NonsensePerC,
+    "% nonsense mutations\n")
 
 ###### FROM UNIT NOTES ######
 # Passenger mutations are expected to be randomly
