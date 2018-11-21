@@ -229,28 +229,41 @@ PTPN11NonsensePerC <- PTPN11mutations[3]/N *100
 # Print relative frequencies from stochastic simulation:
 cat("************ KRas ************\n")
 cat("KRas stochastic environment simulated:", KRASSilentPerC,
-"% silent mutations\n")
-cat("KRas stochastic environment simulated:", KRASMissensePerC,
-    "% missense mutations\n")
-cat("KRas stochastic environment simulated:", KRASNonsensePerC,
+"% silent mutations\n",
+    "KRas stochastic environment simulated:", KRASMissensePerC,
+    "% missense mutations\n",
+    "KRas stochastic environment simulated:", KRASNonsensePerC,
     "% nonsense mutations\n")
 
 cat("************ OR1A1 ************\n")
 cat("OR1A1 stochastic environment simulated:", OR1A1SilentPerC,
-    "% silent mutations\n")
-cat("OR1A1 stochastic environment simulated:", OR1A1MissensePerC,
-    "% missense mutations\n")
-cat("OR1A1 stochastic environment simulated:", OR1A1NonsensePerC,
+    "% silent mutations\n",
+    "OR1A1 stochastic environment simulated:", OR1A1MissensePerC,
+    "% missense mutations\n",
+    "OR1A1 stochastic environment simulated:", OR1A1NonsensePerC,
     "% nonsense mutations\n")
 
 cat("************ PTPN11 ************\n")
 cat("PTPN11 stochastic environment simulated:", PTPN11SilentPerC,
-    "% silent mutations\n")
-cat("PTPN11 stochastic environment simulated:", PTPN11MissensePerC,
-    "% missense mutations\n")
-cat("PTPN11 stochastic environment simulated:", PTPN11NonsensePerC,
+    "% silent mutations\n",
+    "PTPN11 stochastic environment simulated:", PTPN11MissensePerC,
+    "% missense mutations\n",
+    "PTPN11 stochastic environment simulated:", PTPN11NonsensePerC,
     "% nonsense mutations\n")
 
+######## Output ########
+# ************ KRas ************
+# KRas stochastic environment simulated: 20.682 % silent mutations
+# KRas stochastic environment simulated: 74.197 % missense mutations
+# KRas stochastic environment simulated: 5.121 % nonsense mutations
+# ************ OR1A1 ************
+# OR1A1 stochastic environment simulated: 23.406 % silent mutations
+# OR1A1 stochastic environment simulated: 73.21 % missense mutations
+# OR1A1 stochastic environment simulated: 3.384 % nonsense mutations
+# ************ PTPN11 ************
+# PTPN11 stochastic environment simulated: 21.044 % silent mutations
+# PTPN11 stochastic environment simulated: 74.259 % missense mutations
+# PTPN11 stochastic environment simulated: 4.697 % nonsense mutations
 ###### FROM UNIT NOTES ######
 # Passenger mutations are expected to be randomly
 # distributed throughout the genome, driver mutations
@@ -274,36 +287,35 @@ cat("PTPN11 stochastic environment simulated:", PTPN11NonsensePerC,
 
 
 
-## In the loop experiment above, how many of the mutations were of each category for each gene?
-
+# In the loop experiment above, how many of the mutations were of each category for each gene?
 # KRas:
-# missense
-# silent ("synonymous")
-# nonsense ("truncating")
-
+# missense: 20.7%
+# silent ("synonymous"): 74.2%
+# nonsense ("truncating"): 5.1%
+#
 # PTPN11:
-# missense
-# silent ("synonymous")
-# nonsense ("truncating")
-
+# missense: 21%
+# silent ("synonymous"): 74.3%
+# nonsense ("truncating"): 4.7%
+#
 # OR1A1:
-# missense
-# silent ("synonymous")
-# nonsense ("truncating")
-
-## In Intogen, what is the frequency of mutations of each category for each gene?
+# missense: 23.4%
+# silent ("synonymous"): 73.2%
+# nonsense ("truncating"): 3.4%
+#
+# In Intogen, what is the frequency of mutations of each category for each gene?
 # KRAS:
 # https://www.intogen.org/search?gene=KRAS
 # missense: 99%
 # silent ("synonymous"): 1%
 # nonsense ("truncating"): 0%
-
+#
 # PTPN11:
 # https://www.intogen.org/search?gene=PTPN11#frequency
 # missense: 82%
 # silent ("synonymous"): 15%
 # nonsense ("truncating"): 4%
-
+#
 # OR1A1:
 # https://www.intogen.org/search?gene=OR1A1
 # missense: 59%
